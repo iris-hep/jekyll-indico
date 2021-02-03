@@ -22,15 +22,16 @@ module JekyllIndico
     private
 
     def collect_meeting(name, number)
-      @site.data['indico'] = {} unless @site.data.key? 'indico'
+      data_path = @site.config.dig('indico', 'data') || 'indico'
+      @site.data[data_path] = {} unless @site.data.key? data_path
 
       # Do nothing if already downloaded
-      return if @site.data['indico'].key? name
+      return if @site.data[data_path].key? name
 
       puts "Accessing Indico meeting API for #{name}:#{number} " \
            '- run `bundle exec rake cache` to cache'
       iris_meeting = Meetings.new(number)
-      @site.data['indico'][name] = iris_meeting.dict
+      @site.data[data_path][name] = iris_meeting.dict
     end
   end
 end

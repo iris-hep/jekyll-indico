@@ -6,6 +6,7 @@ Your `_config.yaml` file should contain the categories you want to download:
 
 ```yaml
 indico:
+  data: indico # Optional, folder name in _data to use
   ids:
     topical: 10570
     blueprint: 11329
