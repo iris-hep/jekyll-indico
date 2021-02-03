@@ -4,7 +4,7 @@ require 'yaml'
 
 require 'jekyll'
 
-require 'jekyll-indico'
+require 'jekyll-indico/core'
 
 module JekyllIndico
   # This is a Jekyll Generator

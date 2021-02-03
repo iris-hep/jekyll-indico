@@ -3,7 +3,7 @@
 require 'pathname'
 require 'yaml'
 
-require 'jekyll-indico'
+require 'jekyll-indico/core'
 
 # The main module for this package.
 module JekyllIndico
