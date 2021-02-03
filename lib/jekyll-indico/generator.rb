@@ -6,7 +6,6 @@ require 'jekyll'
 
 require 'jekyll-indico'
 
-
 module JekyllIndico
   # This is a Jekyll Generator
   class GetIndico < Jekyll::Generator

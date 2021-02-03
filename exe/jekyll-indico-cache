@@ -7,7 +7,7 @@ require 'optparse'
 
 require 'jekyll-indico'
 
-options = {config: "_config.yml"}
+options = { config: '_config.yml' }
 
 OptionParser.new do |opts|
   opts.on('-c', '--config=FILE', 'Read a config file') do |c|

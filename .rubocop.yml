@@ -1,0 +1,11 @@
+Metrics/MethodLength:
+  Max: 25
+Metrics/AbcSize:
+  Max: 55
+Style/NumericLiterals:
+  Enabled: false
+Naming/FileName:
+  Enabled: false
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.4
