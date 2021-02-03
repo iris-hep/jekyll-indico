@@ -8,17 +8,13 @@ Gem::Specification.new do |spec|
   spec.name          = 'jekyll-indico'
   spec.version       = JekyllIndico::VERSION
   spec.authors       = ['Henry Schreiner']
-  spec.email         = ['henryfs@princeton.edu']
+  spec.email         = ['henryschreineriii@gmail.com']
 
   spec.summary       = 'Read and/or cache indico meeting lists for Jekyll'
   spec.homepage      = 'https://rubygems.org/gems/jekyll-indico'
   spec.license       = 'MIT'
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-
     spec.metadata['homepage_uri'] = spec.homepage
     spec.metadata['source_code_uri'] = 'https://github.com/iris-hep/jekyll-indico'
     spec.metadata['changelog_uri'] = 'https://github.com/iris-hep/jekyll-indico/blob/main/CHANGELOG.md'

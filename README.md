@@ -13,6 +13,9 @@ indico:
 ```
 
 
+This plugin will automatically sign your requests if your environment contains
+`INDICO_API` and `INDICO_SECRET_KEY`.
+
 #### Usage: installing
 
 
@@ -57,3 +60,10 @@ bundle install --path vendor/bundle
 bundle exec rake
 ```
 
+To release, make sure the version is new then:
+
+```bash
+bundle exec rake publish
+```
+
+This tags, pushes the tag, and publishes.
