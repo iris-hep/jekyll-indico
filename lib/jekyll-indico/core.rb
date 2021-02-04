@@ -9,15 +9,21 @@ require 'time'
 require 'openssl'
 
 module JekyllIndico
+  class Error < StandardError
+  end
+
+  class MissingURL < Error
+  end
+
   # Look for topical meetings
   class Meetings
     attr_accessor :dict
 
     # ID for IRIS-HEP: 10570
-    def initialize(indico_id, **kargs)
+    def initialize(base_url, indico_id, **kargs)
       @dict = {}
 
-      download_and_iterate(indico_id, **kargs) do |i|
+      download_and_iterate(base_url, indico_id, **kargs) do |i|
         # Trim paragraph tags
         d = i['description']
         d = d[3..-1] if d.start_with? '<p>'
@@ -56,11 +62,19 @@ module JekyllIndico
       config.dig('indico', 'ids')
     end
 
+    # Get base URL from a config
+    def self.base_url(config = {})
+      url = config.dig('indico', 'url')
+      raise MissingURL('indico: url: MISSING from your config!') unless url
+
+      url
+    end
+
     private
 
     # Run a block over each item in the downloaded results
-    def download_and_iterate(indico_id, **kargs, &block)
-      url = build_url(indico_id, **kargs)
+    def download_and_iterate(base_url, indico_id, **kargs, &block)
+      url = build_url(base_url, indico_id, **kargs)
       uri = URI.parse(url)
       response = Net::HTTP.get_response(uri)
 
@@ -77,7 +91,7 @@ module JekyllIndico
     end
 
     # Automatically signs request if environment has INDICO_API/SECRET_KEY
-    def build_url(indico_id, **kargs)
+    def build_url(base_url, indico_id, **kargs)
       kargs[:pretty] = 'no'
 
       if ENV['INDICO_API_KEY']
@@ -89,7 +103,7 @@ module JekyllIndico
         end
       end
 
-      "https://indico.cern.ch#{join_url(indico_id, kargs)}"
+      "#{base_url}#{join_url(indico_id, kargs)}"
     end
   end
 end

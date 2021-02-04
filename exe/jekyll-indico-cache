@@ -19,8 +19,9 @@ puts "Reading #{options[:config]}"
 
 config = YAML.safe_load(File.read(options[:config]))
 meeting_ids = JekyllIndico::Meetings.meeting_ids(config)
+base_url = JekyllIndico::Meetings.base_url(config)
 data_path = config.dig('indico', 'data') || 'indico'
 
-JekyllIndico.cache(meeting_ids, data_path) do |name, number|
+JekyllIndico.cache(base_url, meeting_ids, data_path) do |name, number|
   puts "Accessing #{number} for #{name}"
 end

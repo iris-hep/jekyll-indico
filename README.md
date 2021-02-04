@@ -11,6 +11,7 @@ Your `_config.yaml` file should contain the categories you want to download:
 
 ```yaml
 indico:
+  url: https://indico.cern.ch # Indico instance to use (REQUIRED)
   data: indico # Optional, folder name in _data to use
   ids:
     topical: 10570
