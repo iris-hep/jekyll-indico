@@ -42,17 +42,26 @@ If you want to cache for local website development, you can run:
 bundle exec jekyll-indico-cache --config _config.yaml
 ```
 
-<!-- Feature not added yet
-Or, if you use rake, you can add the provided task:
+Or, if you use rake, you can add a task like this:
 
 ```ruby
-require 'jekyll-indico/rake_task'
-
-JekyllIndico::RakeTask.new(:cache)
+task: cache do
+  sh 'jekyll-indico-cache'
+end
 ```
 
 Now the "cache" task will cache your Indico reads.
--->
+
+
+#### Internals
+
+This works by calling the Indico API and pulling meeting information, then
+storing it in `site.data[config.indico.data][config.indico.id][number]` (or
+caching it in
+`_data/<config.indico.data>/<config.indico.id.key>/<number>.yml`). This then
+available directly in liquid from this location. You can have as many ids as
+you want (key is a category name that you select, the value is the group ID
+number on Indico).
 
 #### Setting up for development:
 
