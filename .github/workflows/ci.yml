@@ -13,11 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.4
-    - name: Install dependencies
-      run: bundle install
+        bundler-cache: true
     - name: Run tests
       run: bundle exec rake

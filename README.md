@@ -1,7 +1,7 @@
 # Jekyll-Indico
 
 [![Gem Version](https://badge.fury.io/rb/jekyll-indico.svg)](https://badge.fury.io/rb/jekyll-indico)
-![CI](https://github.com/iris-hep/jekyll-indico/workflows/CI/badge.svg)
+[![CI](https://github.com/iris-hep/jekyll-indico/workflows/CI/badge.svg)](https://github.com/iris-hep/jekyll-indico/actions?query=workflow%3ACI)
 
 This is a tool for importing meeting information from Indico.
 
