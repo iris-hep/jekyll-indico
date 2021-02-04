@@ -1,3 +1,8 @@
+# Jekyll-Indico
+
+[![Gem Version](https://badge.fury.io/rb/jekyll-indico.svg)](https://badge.fury.io/rb/jekyll-indico)
+
+
 This is a tool for importing meeting information from Indico.
 
 #### Setup: config
