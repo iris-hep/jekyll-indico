@@ -53,7 +53,7 @@ module JekyllIndico
     def to_files(folder)
       @dict.each do |key, dict|
         yield key if block_given?
-        file.write(folder / "#{key}.yml", dict.to_yaml)
+        File.write(folder / "#{key}.yml", dict.to_yaml)
       end
     end
 
