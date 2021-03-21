@@ -1,3 +1,6 @@
+# Version 0.3.0
+
+Support setting or avoiding the cache command message.
 
 # Version 0.2.1
 

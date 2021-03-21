@@ -12,6 +12,7 @@ module JekyllIndico
     # Main entry point for Jekyll
     def generate(site)
       @site = site
+      @cache_msg = @site.config.dig('indico', 'cache-command')
 
       meeting_ids = Meetings.meeting_ids(@site.config)
       meeting_ids.each do |name, number|
@@ -30,8 +31,8 @@ module JekyllIndico
       # Do nothing if already downloaded
       return if @site.data[data_path].key? name
 
-      puts "Accessing Indico meeting API for #{name}:#{number} " \
-           '- run `bundle exec rake cache` to cache'
+      msg = @cache_msg ? " - run `#{@cache_msg}` to cache" : ''
+      puts "Accessing Indico meeting API for #{name}:#{number}#{msg}"
       iris_meeting = Meetings.new(base_url, number)
       @site.data[data_path][name] = iris_meeting.dict
     end
