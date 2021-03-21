@@ -1,3 +1,8 @@
+
+# Version 0.2.1
+
+Fix manual caching.
+
 # Version 0.2.0
 
 Support for base URLs. The `indico: url:` parameter is *required*.
