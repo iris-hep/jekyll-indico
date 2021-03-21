@@ -75,10 +75,11 @@ bundle install --path vendor/bundle
 bundle exec rake
 ```
 
-To release, make sure the version is new then:
+To release, make sure the version in `lib/jekyll-indico/version.rb` is new and
+you have updated your lock file with `bundle instal` then:
 
 ```bash
-bundle exec rake publish
+bundle exec rake release
 ```
 
 This tags, pushes the tag, and publishes.
