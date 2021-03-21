@@ -13,6 +13,7 @@ Your `_config.yaml` file should contain the categories you want to download:
 indico:
   url: https://indico.cern.ch # Indico instance to use (REQUIRED)
   data: indico # Optional, folder name in _data to use
+  cache-command: bundle exec rake cache # Optional, user msg if you support it
   ids:
     topical: 10570
     blueprint: 11329
