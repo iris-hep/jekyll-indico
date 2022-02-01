@@ -20,8 +20,8 @@ module JekyllIndico
       Net::HTTP.read_timeout = timeout if timeout
 
       meeting_ids = @site.config.dig('indico', 'ids')
-      raise MissingIDs('indico: ids: MISSING from your config!') unless meeting_ids
-      raise MissingIDs('indico: ids: must be a list!') unless meeting_ids.is_a?(Array)
+      raise MissingIDs, 'indico: ids: MISSING from your config!' unless meeting_ids
+      raise MissingIDs, 'indico: ids: must be a hash!' unless meeting_ids.is_a?(Hash)
 
       meeting_ids.each do |name, number|
         collect_meeting(name.to_s, number)
@@ -32,7 +32,7 @@ module JekyllIndico
 
     def collect_meeting(name, number)
       base_url = @site.config.dig('indico', 'url')
-      raise MissingURL('indico: url: MISSING from your config!') unless url
+      raise MissingURL, 'indico: url: MISSING from your config!' unless base_url
 
       data_path = @site.config.dig('indico', 'data') || 'indico'
       @site.data[data_path] = {} unless @site.data.key? data_path

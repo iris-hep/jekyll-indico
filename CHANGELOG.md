@@ -1,3 +1,7 @@
+# Version 0.4.1
+
+Fix a few issues in Jekyll generator.
+
 # Version 0.4.0
 
 Support `INDICO_TOKEN`, replaces the [deprecated indico URL
