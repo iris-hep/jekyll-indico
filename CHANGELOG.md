@@ -1,3 +1,7 @@
+# Version 0.4.2
+
+Remove broken support for classic tokens. Modern `INDICO_TOKEN` required.
+
 # Version 0.4.1
 
 Fix a few issues in Jekyll generator.
