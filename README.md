@@ -20,7 +20,7 @@ indico:
 ```
 
 This plugin will automatically use an API token if your environment contains
-`INDICO_TOKEN`. You should generate this and replace `INDICO_API` and
+`INDICO_TOKEN`. You should generate this and replace `INDICO_API_KEY` and
 `INDICO_SECRET_KEY` with it. You'll want the "Classic API" read permissions set
 on it.
 

@@ -71,7 +71,7 @@ module JekyllIndico
       req = Net::HTTP::Get.new(uri)
       if ENV['INDICO_TOKEN']
         req['Authorization'] = "Bearer #{ENV['INDICO_TOKEN']}"
-      elsif ENV['INDICO_SECRET_KEY'] || ENV['INDICO_API']
+      elsif ENV['INDICO_SECRET_KEY'] || ENV['INDICO_API_KEY']
         raise Error, 'Use INDICO_TOKEN with a new-style token'
       end
 
