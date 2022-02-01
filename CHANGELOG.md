@@ -1,3 +1,8 @@
+# Version 0.4.3
+
+Fix warning message for classic tokens. Add time prinout to help judge need for
+timeout setting.
+
 # Version 0.4.2
 
 Remove broken support for classic tokens. Modern `INDICO_TOKEN` required.
