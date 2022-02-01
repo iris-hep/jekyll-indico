@@ -15,6 +15,9 @@ module JekyllIndico
   class MissingURL < Error
   end
 
+  class MissingIDs < Error
+  end
+
   # Look for topical meetings
   class Meetings
     attr_accessor :dict
@@ -57,26 +60,18 @@ module JekyllIndico
       end
     end
 
-    # Get meeting ids from a config
-    def self.meeting_ids(config = {})
-      config.dig('indico', 'ids')
-    end
-
-    # Get base URL from a config
-    def self.base_url(config = {})
-      url = config.dig('indico', 'url')
-      raise MissingURL('indico: url: MISSING from your config!') unless url
-
-      url
-    end
-
     private
 
     # Run a block over each item in the downloaded results
     def download_and_iterate(base_url, indico_id, **kargs, &block)
-      url = build_url(base_url, indico_id, **kargs)
-      uri = URI.parse(url)
-      response = Net::HTTP.get_response(uri)
+      uri = URI.join(base_url, "/export/categ/#{indico_id}.json")
+      params = build_params(**kargs)
+      uri.query = URI.encode_www_form(params)
+
+      req = Net::HTTP::Get.new(uri)
+      req['Authorization'] = "Bearer #{ENV['INDICO_TOKEN']}" if ENV['INDICO_TOKEN']
+
+      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
 
       string = response.body
       parsed = JSON.parse(string) # returns a hash
@@ -84,17 +79,11 @@ module JekyllIndico
       parsed['results'].each(&block)
     end
 
-    # Put together a dict and an indico ID
-    def join_url(indico_id, options)
-      apicall = options.sort.to_h.map { |k, v| "#{k}=#{v}" }.join('&')
-      "/export/categ/#{indico_id}.json?#{apicall}"
-    end
-
     # Automatically signs request if environment has INDICO_API/SECRET_KEY
-    def build_url(base_url, indico_id, **kargs)
+    def build_params(**kargs)
       kargs[:pretty] = 'no'
 
-      if ENV['INDICO_API_KEY']
+      if ENV['INDICO_API_KEY'] && !ENV['INDICO_TOKEN']
         kargs[:ak] = ENV['INDICO_API_KEY']
         if ENV['INDICO_SECRET_KEY']
           kargs[:timestamp] = Time.new.to_i.to_s
@@ -103,7 +92,7 @@ module JekyllIndico
         end
       end
 
-      "#{base_url}#{join_url(indico_id, kargs)}"
+      kargs
     end
   end
 end
