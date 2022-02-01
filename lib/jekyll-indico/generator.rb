@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
+require 'benchmark'
+require 'net/http'
 require 'yaml'
 
 require 'jekyll'
 
 require 'jekyll-indico/core'
-
-require 'net/http'
 
 module JekyllIndico
   # This is a Jekyll Generator
@@ -41,9 +41,12 @@ module JekyllIndico
       return if @site.data[data_path].key? name
 
       msg = @cache_msg ? " - run `#{@cache_msg}` to cache" : ''
-      puts "Accessing Indico meeting API for #{name}:#{number}#{msg}"
-      iris_meeting = Meetings.new(base_url, number)
-      @site.data[data_path][name] = iris_meeting.dict
+      print "Accessing Indico meeting API for #{name}:#{number}#{msg}"
+      time = Benchmark.realtime do
+        iris_meeting = Meetings.new(base_url, number)
+        @site.data[data_path][name] = iris_meeting.dict
+      end
+      puts ", took #{time.round(1)} s"
     end
   end
 end
