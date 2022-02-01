@@ -19,9 +19,10 @@ indico:
     blueprint: 11329
 ```
 
-
-This plugin will automatically sign your requests if your environment contains
-`INDICO_API` and `INDICO_SECRET_KEY`.
+This plugin will automatically use an API token if your environment contains
+`INDICO_TOKEN`. If you use the deprecated API, this plugin will automatically
+sign your requests if your environment contains `INDICO_API` and
+`INDICO_SECRET_KEY`.
 
 #### Usage: installing
 
@@ -70,14 +71,20 @@ number on Indico).
 
 ```bash
 # Install a local bundle
-bundle install --path vendor/bundle
+bundle config set --local path 'vendor/bundle'
 
 # Test style and unit tests
 bundle exec rake
 ```
 
+If you need to automatically correct unit paths:
+
+```bash
+bundle exec rake rubocop:auto_correct
+```
+
 To release, make sure the version in `lib/jekyll-indico/version.rb` is new and
-you have updated your lock file with `bundle instal` then:
+you have updated your lock file with `bundle install` then:
 
 ```bash
 bundle exec rake release

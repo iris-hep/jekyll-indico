@@ -1,3 +1,9 @@
+# Version 0.4.0
+
+Support `INDICO_TOKEN`, replaces the [deprecated indico URL
+authentication](https://docs.getindico.io/en/stable/http-api/access/). Also
+support `indico.timeout` setting in config.
+
 # Version 0.3.0
 
 Support setting or avoiding the cache command message.
