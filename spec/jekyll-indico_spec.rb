@@ -9,7 +9,7 @@ RSpec.describe JekyllIndico do
 
   context 'with a CERN topical meeting' do
     before :all do
-      @meeting = JekyllIndico::Meetings.new('https://indico.cern.ch', 10570)
+      @meeting = JekyllIndico::Meetings.new('https://indico.cern.ch', 10570, timeout: 120)
     end
 
     it 'has expected meetings' do

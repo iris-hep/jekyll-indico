@@ -69,14 +69,16 @@ module JekyllIndico
       uri.query = URI.encode_www_form(params)
 
       req = Net::HTTP::Get.new(uri)
-      req.read_timeout = timeout if timeout
       if ENV['INDICO_TOKEN']
         req['Authorization'] = "Bearer #{ENV['INDICO_TOKEN']}"
       elsif ENV['INDICO_SECRET_KEY'] || ENV['INDICO_API_KEY']
         raise Error, 'Use INDICO_TOKEN with a new-style token'
       end
 
-      response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+      opts = { use_ssl: true }
+      opts[:read_timeout] = timeout if timeout
+
+      response = Net::HTTP.start(uri.hostname, uri.port, **opts) { |http| http.request(req) }
 
       string = response.body
       parsed = JSON.parse(string) # returns a hash

@@ -1,10 +1,14 @@
+# Version 0.4.5
+
+Fix timeout being incorrectly called again.
+
 # Version 0.4.4
 
 Fix timeout being incorrectly called.
 
 # Version 0.4.3
 
-Fix warning message for classic tokens. Add time prinout to help judge need for
+Fix warning message for classic tokens. Add time printout to help judge need for
 timeout setting.
 
 # Version 0.4.2
