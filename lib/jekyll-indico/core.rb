@@ -63,12 +63,13 @@ module JekyllIndico
     private
 
     # Run a block over each item in the downloaded results
-    def download_and_iterate(base_url, indico_id, **params, &block)
+    def download_and_iterate(base_url, indico_id, timeout: nil, **params, &block)
       params[:pretty] = 'no'
       uri = URI.join(base_url, "/export/categ/#{indico_id}.json")
       uri.query = URI.encode_www_form(params)
 
       req = Net::HTTP::Get.new(uri)
+      req.read_timeout = timeout if timeout
       if ENV['INDICO_TOKEN']
         req['Authorization'] = "Bearer #{ENV['INDICO_TOKEN']}"
       elsif ENV['INDICO_SECRET_KEY'] || ENV['INDICO_API_KEY']
