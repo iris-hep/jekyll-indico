@@ -29,7 +29,7 @@ module JekyllIndico
       download_and_iterate(base_url, indico_id, limit: limit, **kargs) do |i|
         # Trim paragraph tags
         d = i['description']
-        d = d[3..-1] if d.start_with? '<p>'
+        d = d[3..] if d.start_with? '<p>'
         d = d[0..-5] if d.end_with? '</p>'
 
         start_date = Date.parse i['startDate']['date']

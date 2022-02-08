@@ -1,3 +1,7 @@
+# Version 0.6
+
+Minimum Ruby version is now Ruby 2.6.
+
 # Version 0.5
 
 Added a way to paginate. Use `paginate: N` to iterate over pages of results.
