@@ -1,3 +1,7 @@
+# Version 0.5
+
+Added a way to paginate. Use `paginate: N` to iterate over pages of results.
+
 # Version 0.4.5
 
 Fix timeout being incorrectly called again.

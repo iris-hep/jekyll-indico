@@ -35,6 +35,7 @@ module JekyllIndico
       @site.data[data_path] = {} unless @site.data.key? data_path
 
       timeout = @site.config.dig('indico', 'timeout')
+      limit = @site.config.dig('indico', 'paginate')
 
       # Do nothing if already downloaded
       return if @site.data[data_path].key? name
@@ -42,7 +43,7 @@ module JekyllIndico
       msg = @cache_msg ? " - run `#{@cache_msg}` to cache" : ''
       print "Accessing Indico meeting API for #{name}:#{number}#{msg}"
       time = Benchmark.realtime do
-        iris_meeting = Meetings.new(base_url, number, timeout: timeout)
+        iris_meeting = Meetings.new(base_url, number, timeout: timeout, limit: limit)
         @site.data[data_path][name] = iris_meeting.dict
       end
       puts ", took #{time.round(1)} s"
