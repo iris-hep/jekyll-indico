@@ -23,10 +23,10 @@ module JekyllIndico
     attr_accessor :dict
 
     # ID for IRIS-HEP: 10570
-    def initialize(base_url, indico_id, **kargs)
+    def initialize(base_url, indico_id, limit: nil, **kargs)
       @dict = {}
 
-      download_and_iterate(base_url, indico_id, **kargs) do |i|
+      download_and_iterate(base_url, indico_id, limit: limit, **kargs) do |i|
         # Trim paragraph tags
         d = i['description']
         d = d[3..-1] if d.start_with? '<p>'
@@ -62,9 +62,10 @@ module JekyllIndico
 
     private
 
-    # Run a block over each item in the downloaded results
-    def download_and_iterate(base_url, indico_id, timeout: nil, **params, &block)
-      params[:pretty] = 'no'
+    def get_parsed_results(base_url, indico_id, timeout: nil, **params)
+      opts = { use_ssl: true }
+      opts[:read_timeout] = timeout if timeout
+
       uri = URI.join(base_url, "/export/categ/#{indico_id}.json")
       uri.query = URI.encode_www_form(params)
 
@@ -75,15 +76,29 @@ module JekyllIndico
         raise Error, 'Use INDICO_TOKEN with a new-style token'
       end
 
-      opts = { use_ssl: true }
-      opts[:read_timeout] = timeout if timeout
-
       response = Net::HTTP.start(uri.hostname, uri.port, **opts) { |http| http.request(req) }
 
-      string = response.body
-      parsed = JSON.parse(string) # returns a hash
+      parsed = JSON.parse(response.body)
+      parsed['results']
+    end
 
-      parsed['results'].each(&block)
+    # Run a block over each item in the downloaded results
+    def download_and_iterate(base_url, indico_id, limit: nil, **params, &block)
+      params[:limit] = limit if limit
+      params[:pretty] = 'no'
+
+      unless limit
+        results = get_parsed_results(base_url, indico_id, **params)
+        results.each(&block)
+        return
+      end
+
+      0.step.each do |n|
+        results = get_parsed_results(base_url, indico_id, offset: n * limit, **params)
+        break if results.empty?
+
+        results.each(&block)
+      end
     end
   end
 end

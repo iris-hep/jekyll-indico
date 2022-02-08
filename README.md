@@ -14,6 +14,8 @@ indico:
   url: https://indico.cern.ch # Indico instance to use (REQUIRED)
   data: indico # Optional, folder name in _data to use
   cache-command: bundle exec rake cache # Optional, user msg if you support it
+  paginate: 20 # Optional integer number of results per page (auto-iterates over all pages)
+  timeout: 120 # Optional timeout in number of seconds (default: 60)
   ids:
     topical: 10570
     blueprint: 11329
