@@ -1,6 +1,7 @@
+
 # Version 0.6
 
-Minimum Ruby version is now Ruby 2.6.
+Minimum Ruby version is now Ruby 2.6. Optimized `paginate` to reduce the API calls by one.
 
 # Version 0.5
 
