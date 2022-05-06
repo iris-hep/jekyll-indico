@@ -18,9 +18,13 @@ end.parse!
 puts "Reading #{options[:config]}"
 
 config = YAML.safe_load(File.read(options[:config]))
-meeting_ids = JekyllIndico::Meetings.meeting_ids(config)
-base_url = JekyllIndico::Meetings.base_url(config)
+meeting_ids = config.dig('indico', 'ids')
+base_url = config.dig('indico', 'url')
 data_path = config.dig('indico', 'data') || 'indico'
+
+raise MissingURL, 'indico: url: MISSING from your config!' unless base_url
+raise MissingIDs, 'indico: ids: MISSING from your config!' unless meeting_ids
+raise MissingIDs, 'indico: ids: must be a hash!' unless meeting_ids.is_a?(Hash)
 
 JekyllIndico.cache(base_url, meeting_ids, data_path) do |name, number|
   puts "Accessing #{number} for #{name}"
