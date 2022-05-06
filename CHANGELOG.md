@@ -1,3 +1,10 @@
+# Version 0.6.2
+
+Fix one more issue with caching.
+
+# Version 0.6.1
+
+Fix issue with caching. Update actions & bundler.
 
 # Version 0.6
 

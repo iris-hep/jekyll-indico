@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jekyll-indico (0.6.1)
+    jekyll-indico (0.6.2)
       jekyll (>= 3.8, < 5.0)
 
 GEM

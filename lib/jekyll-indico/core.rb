@@ -84,7 +84,7 @@ module JekyllIndico
 
     # Run a block over each item in the downloaded results
     def download_and_iterate(base_url, indico_id, limit: nil, **params, &block)
-      limit = nil if limit.zero?
+      limit = nil if limit&.zero?
       params[:limit] = limit if limit
       params[:pretty] = 'no'
 
