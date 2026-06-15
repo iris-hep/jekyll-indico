@@ -49,5 +49,20 @@ RSpec.describe JekyllIndico do
       expect(dict['20240304']['name']).to eq('First')
       expect(dict['20240304-222']['name']).to eq('Second')
     end
+
+    it 'handles a nil description without raising' do
+      item = {
+        'id' => '333',
+        'title' => 'No Description',
+        'description' => nil,
+        'startDate' => { 'date' => '2024-03-05' },
+        'url' => 'https://indico.cern.ch/event/333/',
+        'location' => 'CERN'
+      }
+      expect { JekyllIndico::Meetings.build([item]) }.not_to raise_error
+      dict = JekyllIndico::Meetings.build([item])
+      expect(dict['20240305']['description']).to eq('')
+      expect(dict['20240305']['youtube']).to eq('')
+    end
   end
 end
