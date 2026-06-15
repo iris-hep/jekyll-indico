@@ -15,12 +15,9 @@ module JekyllIndico
     def generate(site)
       @site = site
       @cache_msg = @site.config.dig('indico', 'cache-command')
+      @config = JekyllIndico.config_from(@site.config['indico'])
 
-      meeting_ids = @site.config.dig('indico', 'ids')
-      raise MissingIDs, 'indico: ids: MISSING from your config!' unless meeting_ids
-      raise MissingIDs, 'indico: ids: must be a hash!' unless meeting_ids.is_a?(Hash)
-
-      meeting_ids.each do |name, number|
+      @config[:ids].each do |name, number|
         collect_meeting(name.to_s, number)
       end
     end
@@ -28,10 +25,8 @@ module JekyllIndico
     private
 
     def collect_meeting(name, number)
-      base_url = @site.config.dig('indico', 'url')
-      raise MissingURL, 'indico: url: MISSING from your config!' unless base_url
-
-      data_path = @site.config.dig('indico', 'data') || 'indico'
+      base_url = @config[:url]
+      data_path = @config[:data]
       @site.data[data_path] = {} unless @site.data.key? data_path
 
       timeout = @site.config.dig('indico', 'timeout')
