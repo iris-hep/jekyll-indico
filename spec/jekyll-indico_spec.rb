@@ -19,9 +19,7 @@ RSpec.describe JekyllIndico do
 
     %w[name startdate meetingurl location youtube description].each do |name|
       it "has a #{name} field" do
-        expect(@meeting.dict['20190128']).to include('name')
-        expect(@meeting.dict['20190128']).to include('startdate')
-        expect(@meeting.dict['20190128']).to include('meetingurl')
+        expect(@meeting.dict['20190128']).to include(name)
       end
     end
 
