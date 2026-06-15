@@ -90,6 +90,10 @@ module JekyllIndico
 
       response = Net::HTTP.start(uri.hostname, uri.port, **opts) { |http| http.request(req) }
 
+      unless response.is_a?(Net::HTTPSuccess)
+        raise Error, "Indico request failed (#{response.code} #{response.message}) for #{uri}"
+      end
+
       parsed = JSON.parse(response.body)
       parsed['results']
     end
