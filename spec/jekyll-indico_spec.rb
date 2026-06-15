@@ -30,4 +30,24 @@ RSpec.describe JekyllIndico do
       expect(@meeting.dict['20200909']['youtube']).to eq('https://youtu.be/26YXz0fzMNQ')
     end
   end
+
+  context 'with multiple meetings on the same day' do
+    def result(id, title)
+      {
+        'id' => id,
+        'title' => title,
+        'description' => '<p>A meeting</p>',
+        'startDate' => { 'date' => '2024-03-04' },
+        'url' => "https://indico.cern.ch/event/#{id}/",
+        'location' => 'CERN'
+      }
+    end
+
+    it 'keeps both meetings, disambiguated by event id' do
+      dict = JekyllIndico::Meetings.build([result('111', 'First'), result('222', 'Second')])
+      expect(dict.keys).to contain_exactly('20240304', '20240304-222')
+      expect(dict['20240304']['name']).to eq('First')
+      expect(dict['20240304-222']['name']).to eq('Second')
+    end
+  end
 end
