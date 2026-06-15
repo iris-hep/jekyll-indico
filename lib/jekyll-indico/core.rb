@@ -20,7 +20,7 @@ module JekyllIndico
 
   # Look for topical meetings
   class Meetings
-    attr_accessor :dict
+    attr_reader :dict
 
     # ID for IRIS-HEP: 10570
     def initialize(base_url, indico_id, limit: nil, **kargs)
@@ -49,10 +49,7 @@ module JekyllIndico
       d = d[3..] if d.start_with? '<p>'
       d = d[0..-5] if d.end_with? '</p>'
 
-      youtube = ''
-      URI.extract(d).each do |url|
-        youtube = url if url.include?('youtube') || url.include?('youtu.be')
-      end
+      youtube = URI.extract(d).find { |url| url.include?('youtube') || url.include?('youtu.be') } || ''
 
       {
         'name' => item['title'],
@@ -82,8 +79,8 @@ module JekyllIndico
       uri.query = URI.encode_www_form(params)
 
       req = Net::HTTP::Get.new(uri)
-      if ENV['INDICO_TOKEN']
-        req['Authorization'] = "Bearer #{ENV.fetch('INDICO_TOKEN', nil)}"
+      if (token = ENV.fetch('INDICO_TOKEN', nil))
+        req['Authorization'] = "Bearer #{token}"
       elsif ENV.fetch('INDICO_SECRET_KEY', nil) || ENV.fetch('INDICO_API_KEY', nil)
         raise Error, 'Use INDICO_TOKEN with a new-style token'
       end
@@ -116,3 +113,5 @@ module JekyllIndico
     end
   end
 end
+
+require 'jekyll-indico/config'
