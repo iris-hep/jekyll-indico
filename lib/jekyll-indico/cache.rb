@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'fileutils'
 require 'pathname'
 require 'yaml'
 
@@ -12,10 +13,8 @@ module JekyllIndico
   def self.cache(base_url, meeting_ids, data_path)
     meeting_ids.each do |name, number|
       yield name, number
-      indico_dir = Pathname.new('_data') / data_path
-      folder = indico_dir / name.to_s
-      indico_dir.mkdir unless indico_dir.directory?
-      folder.mkdir unless folder.directory?
+      folder = Pathname.new('_data') / data_path / name.to_s
+      FileUtils.mkdir_p(folder)
 
       iris_meeting = JekyllIndico::Meetings.new(base_url, number)
       iris_meeting.to_files(folder) { |key| puts "Making #{folder / key}.yml\n" }
