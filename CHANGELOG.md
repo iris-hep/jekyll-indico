@@ -1,3 +1,10 @@
+# Version 0.6.3
+
+Support multiple meetings on the same day. Previously the second meeting on a
+given day overwrote the first, since entries were keyed only by date. Same-day
+meetings now get the Indico event id appended to their key (`YYYYMMDD-<id>`);
+days with a single meeting are unaffected.
+
 # Version 0.6.2
 
 Fix one more issue with caching.

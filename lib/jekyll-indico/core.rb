@@ -24,32 +24,44 @@ module JekyllIndico
 
     # ID for IRIS-HEP: 10570
     def initialize(base_url, indico_id, limit: nil, **kargs)
-      @dict = {}
+      results = []
+      download_and_iterate(base_url, indico_id, limit: limit, **kargs) { |i| results << i }
+      @dict = self.class.build(results)
+    end
 
-      download_and_iterate(base_url, indico_id, limit: limit, **kargs) do |i|
-        # Trim paragraph tags
-        d = i['description']
-        d = d[3..] if d.start_with? '<p>'
-        d = d[0..-5] if d.end_with? '</p>'
-
-        start_date = Date.parse i['startDate']['date']
-        fname = start_date.strftime('%Y%m%d').to_s
-
-        youtube = ''
-        urllist = URI.extract(d)
-        urllist.each do |url|
-          youtube = url if url.include?('youtube') || url.include?('youtu.be')
-        end
-
-        @dict[fname] = {
-          'name' => i['title'],
-          'startdate' => start_date,
-          'meetingurl' => i['url'],
-          'location' => i['location'],
-          'youtube' => youtube,
-          'description' => d
-        }
+    # Build the date-keyed meeting hash from raw Indico results.
+    def self.build(results)
+      dict = {}
+      results.each do |i|
+        meeting = entry(i)
+        key = meeting['startdate'].strftime('%Y%m%d').to_s
+        # Disambiguate multiple meetings on the same day with the event id (#17)
+        key = "#{key}-#{i['id']}" if dict.key?(key)
+        dict[key] = meeting
       end
+      dict
+    end
+
+    # Transform a single Indico result into a meeting hash.
+    def self.entry(item)
+      # Trim paragraph tags
+      d = item['description']
+      d = d[3..] if d.start_with? '<p>'
+      d = d[0..-5] if d.end_with? '</p>'
+
+      youtube = ''
+      URI.extract(d).each do |url|
+        youtube = url if url.include?('youtube') || url.include?('youtu.be')
+      end
+
+      {
+        'name' => item['title'],
+        'startdate' => Date.parse(item['startDate']['date']),
+        'meetingurl' => item['url'],
+        'location' => item['location'],
+        'youtube' => youtube,
+        'description' => d
+      }
     end
 
     # Write out files (Folder given, by key name)
