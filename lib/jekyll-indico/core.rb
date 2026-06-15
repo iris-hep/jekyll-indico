@@ -5,7 +5,6 @@ require 'uri'
 require 'json'
 require 'yaml'
 require 'date'
-require 'time'
 require 'openssl'
 
 module JekyllIndico
@@ -104,7 +103,7 @@ module JekyllIndico
         return
       end
 
-      0.step.each do |n|
+      (0..).each do |n|
         results = get_parsed_results(base_url, indico_id, offset: n * limit, limit: limit, **params)
         results.each(&block)
         break if results.length < limit
