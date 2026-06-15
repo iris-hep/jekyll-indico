@@ -45,7 +45,7 @@ module JekyllIndico
     # Transform a single Indico result into a meeting hash.
     def self.entry(item)
       # Trim paragraph tags
-      d = item['description']
+      d = item['description'].to_s
       d = d[3..] if d.start_with? '<p>'
       d = d[0..-5] if d.end_with? '</p>'
 
