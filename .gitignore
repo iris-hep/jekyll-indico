@@ -63,3 +63,7 @@ build-iPhoneSimulator/
 #
 /_data
 /.rspec_status
+
+# Symlink to AGENTS.md
+CLAUDE.md
+.claude/
